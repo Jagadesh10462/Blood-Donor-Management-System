@@ -1,13 +1,15 @@
 from flask import *
 import mysql.connector
+import os
 
 connection = mysql.connector.connect(
-    host='b99nxdqzuxf4lcgr9hgg-mysql.services.clever-cloud.com',
-    port=3306,
-    user='u7bbri0rwe7nestf',
-    password='lUN4Xckc7mANUK9zN6i6',
-    database='b99nxdqzuxf4lcgr9hgg'
+    host=os.environ.get('DB_HOST'),
+    port=int(os.environ.get('DB_PORT')),
+    user=os.environ.get('DB_USER'),
+    password=os.environ.get('DB_PASSWORD'),
+    database=os.environ.get('DB_NAME')
 )
+
 
 cursor = connection.cursor()
 
