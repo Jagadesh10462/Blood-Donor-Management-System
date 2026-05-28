@@ -59,8 +59,8 @@
                     <div class="error-msg" id="err-gender">Please select a gender.</div><br><br>
 
                     <label>College Contact Number:</label>
-                    <input type="text" name="collegecontactnumber" class="form-control" placeholder="Numbers only">
-                    <div class="error-msg" id="err-contact">Contact number must be a valid number.</div><br>
+                    <input type="text" name="collegecontactnumber" class="form-control" placeholder="10 digit number" maxlength="10">
+                    <div class="error-msg" id="err-contact">Enter a valid 10 digit contact number.</div><br>
 
                     <label>Blood Group:</label><br>
                     <input type="radio" name="bloodgroup" value="O+"> O+<br>
@@ -90,14 +90,18 @@
             function showError(id) { document.getElementById(id).style.display = 'block'; valid = false; }
             function hideError(id) { document.getElementById(id).style.display = 'none'; }
 
-            // Required text fields
-            ['collegename','collegearea','password','name','branch'].forEach(function(fieldName) {
-                const val = document.querySelector('[name="' + fieldName + '"]').value.trim();
-                const errId = 'err-' + (fieldName === 'password' ? 'password' : fieldName === 'collegearea' ? 'collegearea' : fieldName === 'collegename' ? 'collegename' : fieldName === 'name' ? 'name' : 'branch');
-                if (!val) showError(errId); else hideError(errId);
+            const textFields = [
+                { name: 'collegename', err: 'err-collegename' },
+                { name: 'collegearea', err: 'err-collegearea' },
+                { name: 'password',    err: 'err-password' },
+                { name: 'name',        err: 'err-name' },
+                { name: 'branch',      err: 'err-branch' }
+            ];
+            textFields.forEach(function(f) {
+                const val = document.querySelector('[name="' + f.name + '"]').value.trim();
+                if (!val) showError(f.err); else hideError(f.err);
             });
 
-            // Numeric fields
             const collegeid = document.querySelector('[name="collegeid"]').value.trim();
             if (!collegeid || isNaN(collegeid)) showError('err-collegeid'); else hideError('err-collegeid');
 
@@ -105,9 +109,8 @@
             if (!age || isNaN(age) || !Number.isInteger(Number(age))) showError('err-age'); else hideError('err-age');
 
             const contact = document.querySelector('[name="collegecontactnumber"]').value.trim();
-            if (!contact || isNaN(contact)) showError('err-contact'); else hideError('err-contact');
+            if (!contact || isNaN(contact) || contact.length !== 10) showError('err-contact'); else hideError('err-contact');
 
-            // Radio fields
             if (!document.querySelector('[name="gender"]:checked')) showError('err-gender'); else hideError('err-gender');
             if (!document.querySelector('[name="bloodgroup"]:checked')) showError('err-bloodgroup'); else hideError('err-bloodgroup');
             if (!document.querySelector('[name="donated"]:checked')) showError('err-donated'); else hideError('err-donated');

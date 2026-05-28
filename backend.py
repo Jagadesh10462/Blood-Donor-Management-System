@@ -66,13 +66,20 @@ def submit():
 
         conn = get_connection()
         cursor = conn.cursor()
+
+        # Check for duplicate
+        cursor.execute("SELECT * FROM blooddonar WHERE collegecontactnumber = %s", (collegecontactnumber,))
+        if cursor.fetchone():
+            cursor.close()
+            conn.close()
+            return render_template("duplicate.html")
+
         cursor.execute("""
             INSERT INTO blooddonar VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
         """, (birthday, collegename, collegeid, collegearea, password, name, branch, age, collegecontactnumber, bloodgroup))
         conn.commit()
         cursor.close()
         conn.close()
-
         return render_template("availability.html")
     except Exception as e:
         return str(e)
