@@ -2,75 +2,118 @@
 <html>
 <head>
     <title>BLOOD BANK</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <style>
+        .error-msg { color: red; font-size: 13px; display: none; margin-top: 3px; }
+    </style>
 </head>
-<body style="background-color: bisque;">+
-    <center><h1>BLOOD DONAR PAGE</h1></center>
-    <br><br>
-    <form action="/submit" method="post">
-<div class="container ">
-<div class="row">
-<div class="col-6">
+<body style="background-color: bisque;">
+    <center><h1>BLOOD DONOR PAGE</h1></center>
+    <br>
+    <div class="container">
+        <a href="/" class="btn btn-secondary btn-sm">&larr; Back to Home</a>
+    </div><br>
+    <form action="/submit" method="post" id="donorForm" novalidate>
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <label>Date of Birth:</label>
+                    <input type="date" name="birthdate" class="form-control"><br>
 
-         <label for="birthdate">Date:</label>
-        <input type="date" id="birthdate" name="birthdate"><br><br>
+                    <label>College Name:</label>
+                    <input type="text" name="collegename" class="form-control" placeholder="Enter college name">
+                    <div class="error-msg" id="err-collegename">College name is required.</div><br>
 
-                <label for="first_name">College Name:</label>
-        <input type="text" id="first_name" name="collegename"><br><br>
+                    <label>College ID:</label>
+                    <input type="text" name="collegeid" class="form-control" placeholder="Numbers only">
+                    <div class="error-msg" id="err-collegeid">College ID must be a valid number.</div><br>
 
-        <label for="clg">College id:</label>
-        <input type="text" id="first_name" name="collegeid"><br><br>
+                    <label>College Area:</label>
+                    <input type="text" name="collegearea" class="form-control" placeholder="Enter college area">
+                    <div class="error-msg" id="err-collegearea">College area is required.</div><br>
 
-        <label for="cla">College Area:</label>
-        <input type="text" id="first_name" name="collegearea"><br><br>
+                    <label>Registration Number:</label>
+                    <input type="text" name="password" class="form-control" placeholder="Enter registration number">
+                    <div class="error-msg" id="err-password">Registration number is required.</div><br>
 
+                    <label>Name:</label>
+                    <input type="text" name="name" class="form-control" placeholder="Enter your name">
+                    <div class="error-msg" id="err-name">Name is required.</div><br>
 
+                    <label>Branch:</label>
+                    <input type="text" name="branch" class="form-control" placeholder="Enter branch">
+                    <div class="error-msg" id="err-branch">Branch is required.</div><br>
+                </div>
+                <div class="col-6">
+                    <label>Age:</label>
+                    <input type="text" name="age" class="form-control" placeholder="Numbers only">
+                    <div class="error-msg" id="err-age">Age must be a valid whole number (e.g. 20).</div><br>
 
-        <label for="password">Registration number:</label>
-        <input type="text" id="password" name="password"><br><br>
+                    <label>Gender:</label><br>
+                    <input type="radio" name="gender" value="Male"> Male
+                    <input type="radio" name="gender" value="Female"> Female
+                    <input type="radio" name="gender" value="Others"> Others
+                    <div class="error-msg" id="err-gender">Please select a gender.</div><br><br>
 
-        <label for="first_name">Name:</label>
-        <input type="text" id="first_name" name="name"><br><br>
+                    <label>College Contact Number:</label>
+                    <input type="text" name="collegecontactnumber" class="form-control" placeholder="Numbers only">
+                    <div class="error-msg" id="err-contact">Contact number must be a valid number.</div><br>
 
-        <label for="first_name">Branch:</label>
-        <input type="text" id="first_name" name="branch"><br><br>
-</div>
-<div class="col-6">
-        <label for="last_name"> Age:</label>
-        <input type="text" id="last_name" name="age"><br><br>
+                    <label>Blood Group:</label><br>
+                    <input type="radio" name="bloodgroup" value="O+"> O+<br>
+                    <input type="radio" name="bloodgroup" value="A+"> A+<br>
+                    <input type="radio" name="bloodgroup" value="A-"> A-<br>
+                    <input type="radio" name="bloodgroup" value="AB-"> AB-<br>
+                    <input type="radio" name="bloodgroup" value="O-"> O-<br>
+                    <input type="radio" name="bloodgroup" value="B+"> B+<br>
+                    <input type="radio" name="bloodgroup" value="B-"> B-<br>
+                    <input type="radio" name="bloodgroup" value="AB+"> AB+<br>
+                    <div class="error-msg" id="err-bloodgroup">Please select a blood group.</div><br>
 
-        <label for="email">Gender:</label>
-        <input type="radio"name="gender" > Male 
-        <input type="radio"name="gender"> Female
-        <input type="radio"name="gender"> Others<br><br><br>
-
-        <label for="password">College Contact number:</label>
-        <input  id="password" name="collegecontactnumber" type="text"><br><br>
-
-        <label for="confirm_password">Blood group:</label>
-        
-<input type="radio" name="bloodgroup" value="O+">O+<br>
-<input type="radio" name="bloodgroup" value="A+">A+<br>
-<input type="radio" name="bloodgroup" value="A-">A-<br>
-<input type="radio" name="bloodgroup" value="AB-">AB-<br>
-<input type="radio" name="bloodgroup" value="O-">O-<br>
-<input type="radio" name="bloodgroup" value="B+">B+<br>
-<input type="radio" name="bloodgroup" value="B-">B-<br>
-<input type="radio" name="bloodgroup" value="AB+">AB+<br>
-
-<br><br>
-
-        Donated in last six months?
-        <input type="radio"name="gender1" >yes
-        <input type="radio"name="gender1" >no<br><br>
-</div>
-</div>
-</div>
-
-        <center><input type="submit" value="Submit" class="btn btn-success border-radius"></center>
+                    <label>Donated in last six months?</label><br>
+                    <input type="radio" name="donated" value="yes"> Yes
+                    <input type="radio" name="donated" value="no"> No
+                    <div class="error-msg" id="err-donated">Please answer this question.</div><br><br>
+                </div>
+            </div>
+        </div>
+        <center><input type="submit" value="Submit" class="btn btn-success"></center><br>
     </form>
+
+    <script>
+        document.getElementById('donorForm').addEventListener('submit', function(e) {
+            let valid = true;
+
+            function showError(id) { document.getElementById(id).style.display = 'block'; valid = false; }
+            function hideError(id) { document.getElementById(id).style.display = 'none'; }
+
+            // Required text fields
+            ['collegename','collegearea','password','name','branch'].forEach(function(fieldName) {
+                const val = document.querySelector('[name="' + fieldName + '"]').value.trim();
+                const errId = 'err-' + (fieldName === 'password' ? 'password' : fieldName === 'collegearea' ? 'collegearea' : fieldName === 'collegename' ? 'collegename' : fieldName === 'name' ? 'name' : 'branch');
+                if (!val) showError(errId); else hideError(errId);
+            });
+
+            // Numeric fields
+            const collegeid = document.querySelector('[name="collegeid"]').value.trim();
+            if (!collegeid || isNaN(collegeid)) showError('err-collegeid'); else hideError('err-collegeid');
+
+            const age = document.querySelector('[name="age"]').value.trim();
+            if (!age || isNaN(age) || !Number.isInteger(Number(age))) showError('err-age'); else hideError('err-age');
+
+            const contact = document.querySelector('[name="collegecontactnumber"]').value.trim();
+            if (!contact || isNaN(contact)) showError('err-contact'); else hideError('err-contact');
+
+            // Radio fields
+            if (!document.querySelector('[name="gender"]:checked')) showError('err-gender'); else hideError('err-gender');
+            if (!document.querySelector('[name="bloodgroup"]:checked')) showError('err-bloodgroup'); else hideError('err-bloodgroup');
+            if (!document.querySelector('[name="donated"]:checked')) showError('err-donated'); else hideError('err-donated');
+
+            if (!valid) e.preventDefault();
+        });
+    </script>
 </body>
 </html>
