@@ -2,31 +2,39 @@ from flask import *
 import mysql.connector
 import os
 
-connection = mysql.connector.connect(
-    host=os.environ.get('DB_HOST'),
-    port=int(os.environ.get('DB_PORT')),
-    user=os.environ.get('DB_USER'),
-    password=os.environ.get('DB_PASSWORD'),
-    database=os.environ.get('DB_NAME')
-)
+db_config = {
+    'host': os.environ.get('DB_HOST'),
+    'port': int(os.environ.get('DB_PORT')),
+    'user': os.environ.get('DB_USER'),
+    'password': os.environ.get('DB_PASSWORD'),
+    'database': os.environ.get('DB_NAME')
+}
 
-cursor = connection.cursor()
+def get_connection():
+    return mysql.connector.connect(**db_config)
 
-cursor.execute("""
-    CREATE TABLE IF NOT EXISTS blooddonar (
-        birthday VARCHAR(20),
-        collegename VARCHAR(100),
-        collegeid INT,
-        collegearea VARCHAR(100),
-        password VARCHAR(100),
-        name VARCHAR(100),
-        branch VARCHAR(100),
-        age INT,
-        collegecontactnumber BIGINT,
-        bloodgroup VARCHAR(5)
-    )
-""")
-connection.commit()
+def init_db():
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS blooddonar (
+            birthday VARCHAR(20),
+            collegename VARCHAR(100),
+            collegeid INT,
+            collegearea VARCHAR(100),
+            password VARCHAR(100),
+            name VARCHAR(100),
+            branch VARCHAR(100),
+            age INT,
+            collegecontactnumber BIGINT,
+            bloodgroup VARCHAR(5)
+        )
+    """)
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+init_db()
 
 app = Flask(__name__)
 
@@ -56,10 +64,14 @@ def submit():
         age = int(request.form.get("age"))
         collegecontactnumber = int(request.form.get("collegecontactnumber"))
 
+        conn = get_connection()
+        cursor = conn.cursor()
         cursor.execute("""
             INSERT INTO blooddonar VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
         """, (birthday, collegename, collegeid, collegearea, password, name, branch, age, collegecontactnumber, bloodgroup))
-        connection.commit()
+        conn.commit()
+        cursor.close()
+        conn.close()
 
         return render_template("availability.html")
     except Exception as e:
@@ -67,10 +79,17 @@ def submit():
 
 @app.route('/processdata', methods=['GET', 'POST'])
 def display_table():
-    bloodgroup = request.form.get("bloodgroup")
-    cursor.execute("SELECT * FROM blooddonar WHERE bloodgroup = %s", (bloodgroup,))
-    data = cursor.fetchall()
-    return render_template('informationtable.html', data=data)
+    try:
+        bloodgroup = request.form.get("bloodgroup")
+        conn = get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM blooddonar WHERE bloodgroup = %s", (bloodgroup,))
+        data = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return render_template('informationtable.html', data=data)
+    except Exception as e:
+        return str(e)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
