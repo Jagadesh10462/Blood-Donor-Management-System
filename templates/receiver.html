@@ -5,83 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blood Donation Receiver</title>
     <style>
-        body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-
-h1 {
-    color: #e74c3c;
-}
-
-form {
-    max-width: 400px;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-label {
-    display: block;
-    margin-bottom: 8px;
-    color: #333;
-}
-
-select, input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-input[type="radio"] {
-    margin-right: 5px;
-}
-
-input[type="submit"] {
-    background-color: #e74c3c;
-    color: #fff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-input[type="submit"]:hover {
-    background-color: #c0392b;
-}
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; text-align: center; }
+        h1 { color: green; }
+        form { max-width: 400px; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: left; }
+        label { display: block; margin-bottom: 8px; color: #333; font-weight: bold; }
+        .radio-option { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 16px; }
+        .radio-option input[type="radio"] { width: auto; margin: 0; cursor: pointer; }
+        input[type="submit"] { width: 100%; background-color: #4caf50; color: #fff; padding: 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        input[type="submit"]:hover { background-color: #388e3c; }
+        .back-btn { display: inline-block; margin-bottom: 20px; padding: 8px 16px; background-color: #aaa; color: white; text-decoration: none; border-radius: 4px; font-size: 14px; }
+        .error-msg { color: red; font-size: 13px; display: none; margin-top: 5px; }
     </style>
 </head>
 <body>
-    <h1 style="color: green;">Blood Receiver Page</h1>
+    <h1>Blood Receiver Page</h1>
+    <form id="receiverForm" action="/processdata" method="POST" novalidate>
+        <a href="/" class="back-btn">&larr; Back to Home</a>
 
-    <form id="bloodRequestForm" action="/processdata" method="POST">
-        <label for="bloodGroup">Select the needed blood group:</label>
-<input type="radio" name="bloodgroup" value="O+">O+<br>
-<input type="radio" name="bloodgroup" value="A+">A+<br>
-<input type="radio" name="bloodgroup" value="A-">A-<br>
-<input type="radio" name="bloodgroup" value="AB-">AB-<br>
-<input type="radio" name="bloodgroup" value="O-">O-<br>
-<input type="radio" name="bloodgroup" value="B+">B+<br>
-<input type="radio" name="bloodgroup" value="B-">B-<br>
-<input type="radio" name="bloodgroup" value="AB+">AB+<br>
-<br>
-<br>
+        <label>Select the blood group you need:</label>
+        <div class="radio-option"><input type="radio" name="bloodgroup" value="O+"> O+</div>
+        <div class="radio-option"><input type="radio" name="bloodgroup" value="A+"> A+</div>
+        <div class="radio-option"><input type="radio" name="bloodgroup" value="A-"> A-</div>
+        <div class="radio-option"><input type="radio" name="bloodgroup" value="AB-"> AB-</div>
+        <div class="radio-option"><input type="radio" name="bloodgroup" value="O-"> O-</div>
+        <div class="radio-option"><input type="radio" name="bloodgroup" value="B+"> B+</div>
+        <div class="radio-option"><input type="radio" name="bloodgroup" value="B-"> B-</div>
+        <div class="radio-option"><input type="radio" name="bloodgroup" value="AB+"> AB+</div>
+        <div class="error-msg" id="err-bloodgroup">Please select a blood group.</div>
 
-        <label for="contact">Contact Information:</label>
-        <input type="text" id="contact" name="contact" required>
-
-        <br>
-
-        <input type="submit" value="Submit Request" style="background-color: greenyellow;">
+        <input type="submit" value="Find Donors">
     </form>
+
+    <script>
+        document.getElementById('receiverForm').addEventListener('submit', function(e) {
+            if (!document.querySelector('[name="bloodgroup"]:checked')) {
+                document.getElementById('err-bloodgroup').style.display = 'block';
+                e.preventDefault();
+            } else {
+                document.getElementById('err-bloodgroup').style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
